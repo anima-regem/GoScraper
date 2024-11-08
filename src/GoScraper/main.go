@@ -10,6 +10,7 @@ import (
   "context"
   "github.com/gocolly/colly"
   "strings"
+  "io/ioutil"
 )
 
 func getScrapedWebPage(url string) string {
@@ -65,7 +66,14 @@ func main(){
       fmt.Scanln(&input)
       if input == "y" {
         fmt.Print("Paste your API key: ")
-        fmt.Scanln(&os.Getenv("GEMINI_API_KEY"))
+        var apiKey string
+        fmt.Scanln(&apiKey)
+        os.Setenv("GEMINI_API_KEY", apiKey)
+        err := ioutil.WriteFile(".env", []byte("GEMINI_API_KEY="+apiKey), 0644)
+        if err != nil {
+          fmt.Println("Error writing .env file")
+        }
+        fmt.Println("API key saved to .env file")
       }
     }
   }

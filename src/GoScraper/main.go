@@ -56,7 +56,18 @@ func correctURL(url string) string {
 func main(){
   err := godotenv.Load()
   if err != nil {
-    log.Fatal("Error loading .env file")
+    fmt.Println("Error loading .env file")
+    if os.Getenv("GEMINI_API_KEY") == "" {
+      fmt.Println("Please set the GEMINI_API_KEY environment variable")
+      fmt.Println("You cann find your API key in your gemini account at https://aistudio.google.com/app/apikey")
+      fmt.Print("Wanna paste your API key? (y/n)")
+      var input string
+      fmt.Scanln(&input)
+      if input == "y" {
+        fmt.Print("Paste your API key: ")
+        fmt.Scanln(&os.Getenv("GEMINI_API_KEY"))
+      }
+    }
   }
 
 
